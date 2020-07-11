@@ -16,6 +16,6 @@ phpmailer
 
 twig
 
-#### O banco de dados está dentro da pasta admin com o nome: lista_presenca.sql
+#### O banco de dados está dentro da pasta admin com o nome: lista_presenca.sql (Na tabela tb_admin existe um registro para acesso ao painel administrativo, e-mail: admin@admin.com | senha: 123).
 
 ###### Ao baixar o projeto, altere o nome da pasta DE: sistema-presenca-login-master PARA: presenca, ou se preferir colocar outro nome, altere a pasta para o nome desejado e também os arquivos: usuarios.js | alunos.js => (admin/ajax/js) e Config.php => (app/model).
