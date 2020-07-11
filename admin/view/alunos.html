@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-br" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alunos</title>
+
+  <link rel="stylesheet" href="{{RAIZ}}/admin/core/css/header-admin.css">
+
+  {% include '_lib.html' %}
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" id="navbar-top">
+    <button type="button" class="btn btn-default" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+  </nav>
+
+  <div class="wrapper">
+
+    <nav id="sidebar">
+
+      <div id="sidebar-header">
+        <h3>Bem-Vindo(a)</h3>
+        <p>{{USER_NAME}}</p>
+      </div>
+
+      <ul>
+        <li class="navegacao">MENU DE NAVEGAÇÃO</li>
+        <li>
+          <a href="{{PAG_ALUNOS}}" class="active"><i class="fas fa-graduation-cap"></i> Alunos Presentes</a>
+        </li>
+        <li>
+          <a href="{{PAG_EDITAR}}"><i class="fas fa-edit"></i> Editar Alunos</a>
+        </li>
+        <li>
+          <a href="{{PAG_LOGOFF}}"><i class="fas fa-sign-out-alt"></i> Sair</a>
+        </li>
+      </ul>
+
+    </nav>
+
+    <div id="content">
+
+      <form method="post">
+        <div class="form-row">
+          <div class="col-md-4 col-12 mb-2">
+            <input class="form-control" type="date" name="date_pres" id="date_pres">
+          </div>
+
+          <div class="col-md-4 col-12 mb-2">
+            <select class="form-control" name="hour_pres" id="hour_pres">
+              <option value="0">Todos os horários</option>
+              <option value="08">08:00</option>
+              <option value="10">10:00</option>
+              <option value="12">12:00</option>
+              <option value="13">13:00</option>
+              <option value="14">14:00</option>
+              <option value="16">16:00</option>
+              <option value="18">18:00</option>
+              <option value="20">20:00</option>
+            </select>
+          </div>
+
+          <div class="col-md-4 col-12 mb-2">
+            <button class="btn btn-info btn-block" type="submit" onclick="return presenca()"><i class="fas fa-filter"></i> Filtrar</button>
+          </div>
+        </div>
+      </form>
+
+      <div class="row">
+        <div class="col">
+          <div class="table-responsive">
+            <table class="table table-hover table-bordered">
+              <thead class="thead-light">
+                <tr>
+                  <th style="width: 2%">#</th>
+                  <th style="width: 10%">Nome</th>
+                  <th style="width: 10%">Sobrenome</th>
+                  <th style="width: 10%">Matrícula</th>
+                  <th style="width: 10%">Data</th>
+                  <th style="width: 10%">Hora</th>
+                </tr>
+              </thead>
+              <tbody id="tableBody">
+                {% for user in USERS_ALL %}
+                {% set count = count + 1 %}
+                <tr>
+                  <td>{{count}}</td>
+                  <td>{{user.name}}</td>
+                  <td>{{user.last_name}}</td>
+                  <td>{{user.registration}}</td>
+                  <td>{{user.date_pres}}</td>
+                  <td>{{user.hour_pres}}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script type="text/javascript" src="{{RAIZ}}/admin/core/js/header-admin.js"></script>
+  <script type="text/javascript" src="{{RAIZ}}/admin/ajax/js/alunos.js"></script>
+  <script type="text/javascript" src="{{SRC}}/jquery/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="{{SRC}}/bootstrap-4.1.1/js/bootstrap.min.js"></script>
+</body>
+</html>

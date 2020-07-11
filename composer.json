@@ -1,0 +1,12 @@
+{
+  "autoload":{
+    "psr-4":{
+      "app\\":"app/"
+    }
+  },
+  "require": {
+    "twig/twig": "^2.0",
+    "phpmailer/phpmailer": "^6.0",
+    "components/font-awesome": "^5.0"
+  }
+}

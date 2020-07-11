@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-br" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Usuários</title>
+
+  <link rel="stylesheet" href="{{RAIZ}}/admin/core/css/header-admin.css">
+
+  {% include '_lib.html' %}
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" id="navbar-top">
+    <button type="button" class="btn btn-default" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+  </nav>
+
+  <div class="wrapper">
+
+    <nav id="sidebar">
+
+      <div id="sidebar-header">
+        <h3>Bem-Vindo(a)</h3>
+        <p>{{USER_NAME}}</p>
+      </div>
+
+      <ul>
+        <li class="navegacao">MENU DE NAVEGAÇÃO</li>
+        <li>
+          <a href="{{PAG_ALUNOS}}"><i class="fas fa-graduation-cap"></i> Alunos Presentes</a>
+        </li>
+        <li>
+          <a href="{{PAG_EDITAR}}" class="active"><i class="fas fa-edit"></i> Editar Alunos</a>
+        </li>
+        <li>
+          <a href="{{PAG_LOGOFF}}"><i class="fas fa-sign-out-alt"></i> Sair</a>
+        </li>
+      </ul>
+
+    </nav>
+
+    <div id="content">
+
+      <form method="post">
+        <div class="form-row">
+          <div class="col-12 mb-2">
+            <input class="form-control" type="text" name="search" placeholder="Pesquise por nome, sobrenome ou matrícula..." id="search" onkeyup="pesquisarUsuario()" onkeydown="enterSubmit()">
+          </div>
+
+          <!-- <div class="col-md-4 col-12 my-2">
+          <button class="btn btn-primary btn-block" type="submit"><i class="fas fa-search"></i> Pesquisar</button>
+        </div> -->
+      </div>
+    </form>
+
+    <div class="row">
+      <div class="col">
+        <div class="table-responsive">
+          <table class="table table-hover table-bordered">
+            <thead class="thead-light">
+              <tr>
+                <th style="width: 10%">ID</th>
+                <th style="width: 10%">Nome</th>
+                <th style="width: 10%">Sobrenome</th>
+                <th style="width: 10%">Matrícula</th>
+                <th style="width: 10%">E-mail</th>
+                <th style="width: 2%">Ação</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody">
+              {% for user in USERS_ALL %}
+              <tr>
+                <th>{{user.id}}</th>
+                <td id="nameUser{{user.id}}">{{user.name}}</td>
+                <td id="lastNameUser{{user.id}}">{{user.last_name}}</td>
+                <td id="registrationUser{{user.id}}">{{user.registration}}</td>
+                <td id="emailUser{{user.id}}">{{user.email}}</td>
+                <td>
+                  <!-- <button type="button" class="btn btn-danger mb-1" id="userDel{{user.id_user}}" value="{{user.id_user}}" onclick="passarValor({{user.id_user}})" title="Excluir usuário" data-toggle="modal" data-target="#deletarUsuario"><i class="fas fa-trash"></i></button> -->
+
+                  <button type="button" class="btn btn-info btn-block mb-1" id="userUpdate{{user.id}}" value="{{user.id}}" onclick="passarValorUpdate({{user.id}})" title="Editar usuário" data-toggle="modal" data-target="#alterarUsuario"><i class="fas fa-edit"></i></button>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- Modal Deletar Usuário -->
+<!-- <div class="modal fade" id="deletarUsuario" tabindex="-1" role="dialog" aria-labelledby="deletarUsuarioLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title" id="deletarUsuarioLabel">Excluir Usuário</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="modal-body">
+<p>Tem certeza que deseja excluir este usuário?</p>
+</div>
+<div class="modal-footer">
+<form method="post">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+<button type="submit" class="btn btn-primary" name="delete" id="delModal">Confirmar</button>
+</form>
+</div>
+</div>
+</div>
+</div> -->
+
+
+
+<!-- Modal Alterar Usuário -->
+<div class="modal fade" id="alterarUsuario" tabindex="-1" role="dialog" aria-labelledby="alterarUsuarioLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="alterarUsuarioLabel">Alterar Usuário</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeModal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="post">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="Nome">Nome:</label>
+            <input type="text" name="name" class="form-control" id="name" required>
+          </div>
+          <div class="form-group">
+            <label for="Sobrenome">Sobrenome:</label>
+            <input type="text" name="last_name" class="form-control" id="last_name" required>
+          </div>
+          <div class="form-group">
+            <label for="Matricula">Matrícula:</label>
+            <input type="number" name="registration" class="form-control" id="registration" required>
+          </div>
+          <div class="form-group">
+            <label for="Email">E-mail:</label>
+            <input type="email" name="email" class="form-control" id="email" required>
+          </div>
+          <div class="form-group" id="div_pass" style="display: none">
+            <label for="Senha">Senha:</label>
+            <input type="password" name="pass" class="form-control" id="pass">
+          </div>
+          <button type="button" name="btn_show" id="btn_pass" class="btn btn-info btn-block">Mostrar Senha</button>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-ban"></i> Cancelar</button>
+          <button type="button" class="btn btn-primary" name="update" id="updateModal" onclick="atualizarUsuario()"><i class="fas fa-check"></i> Alterar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript" src="{{RAIZ}}/admin/core/js/header-admin.js"></script>
+<script type="text/javascript" src="{{RAIZ}}/admin/ajax/js/usuarios.js"></script>
+<script type="text/javascript" src="{{SRC}}/jquery/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="{{SRC}}/bootstrap-4.1.1/js/bootstrap.min.js"></script>
+</body>
+</html>
